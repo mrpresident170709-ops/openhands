@@ -1,0 +1,47 @@
+# Ignore everything by default
+*
+
+# Allow only what we need for the backend
+!api/
+!thinksoft/
+!thinksoft/**
+!pyproject.toml
+!poetry.lock
+!uv.lock
+!README.md
+!config.template.toml
+
+# Allow the frontend build (if it's being served by the backend)
+!frontend/build/
+!frontend/build/**
+
+# Ignore common bloat
+node_modules
+.git
+.vercel
+.next
+.vscode
+.github
+*.zip
+*.log
+*.tmp
+temp
+tmp
+build
+dist
+venv
+.venv
+__pycache__
+*.pyc
+evaluation
+enterprise
+tests
+thinksoft-cli
+containers
+kind
+scripts
+skills
+third_party
+untracked.txt
+file_list.csv
+debug_archive.zip
