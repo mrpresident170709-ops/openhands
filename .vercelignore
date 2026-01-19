@@ -10,6 +10,9 @@
 !uv.lock
 !README.md
 !config.template.toml
+!main.py
+!index.py
+!api/index.py
 
 # Allow the frontend build (if it's being served by the backend)
 !frontend/build/
