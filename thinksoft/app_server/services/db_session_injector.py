@@ -38,6 +38,7 @@ class DbSessionInjector(BaseModel, Injector[async_sessionmaker]):
     gcp_db_instance: str | None = None
     gcp_project: str | None = None
     gcp_region: str | None = None
+    database_url: SecretStr | None = None
 
     # Private attrs
     _engine: Engine | None = PrivateAttr(default=None)
@@ -65,6 +66,10 @@ class DbSessionInjector(BaseModel, Injector[async_sessionmaker]):
             self.gcp_project = os.getenv('GCP_PROJECT')
         if self.gcp_region is None:
             self.gcp_region = os.getenv('GCP_REGION')
+        if self.database_url is None:
+            db_url = os.getenv('DATABASE_URL')
+            if db_url:
+                self.database_url = SecretStr(db_url.strip())
         return self
 
     def _create_gcp_db_connection(self):
@@ -173,10 +178,19 @@ class DbSessionInjector(BaseModel, Injector[async_sessionmaker]):
                     port=self.port,
                     database=self.name,
                 )
+            elif self.database_url:
+                url = self.database_url.get_secret_value()
+                if url.startswith('postgres://'):
+                    url = url.replace('postgres://', 'postgresql+asyncpg://', 1)
+                elif url.startswith('postgresql://'):
+                    url = url.replace('postgresql://', 'postgresql+asyncpg://', 1)
+                # Ensure driver is present if not already
+                if '://' in url and '+asyncpg' not in url:
+                    url = url.replace('://', '+asyncpg://', 1)
             else:
                 url = f'sqlite+aiosqlite:///{str(self.persistence_dir)}/openhands.db'
 
-            if self.host:
+            if self.host or self.database_url:
                 async_engine = create_async_engine(
                     url,
                     pool_size=self.pool_size,
@@ -216,8 +230,18 @@ class DbSessionInjector(BaseModel, Injector[async_sessionmaker]):
                     port=self.port,
                     database=self.name,
                 )
+            elif self.database_url:
+                url = self.database_url.get_secret_value()
+                if url.startswith('postgres://'):
+                    url = url.replace('postgres://', 'postgresql+pg8000://', 1)
+                elif url.startswith('postgresql://'):
+                    url = url.replace('postgresql://', 'postgresql+pg8000://', 1)
+                # Ensure driver is present if not already
+                if '://' in url and '+pg8000' not in url:
+                    url = url.replace('://', '+pg8000://', 1)
             else:
                 url = f'sqlite:///{self.persistence_dir}/openhands.db'
+
             engine = create_engine(
                 url,
                 pool_size=self.pool_size,
