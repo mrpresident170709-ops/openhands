@@ -28,59 +28,52 @@
 
 <hr>
 
-🙌 Welcome to Thinksoft, a [community](COMMUNITY.md) focused on AI-driven development. We'd love for you to [join us on Slack](https://thinksoft.dev/slack).
+🙌 Welcome to ThinkSoft, the AI-driven development platform built for teams. Experience the power of AI agents directly in your web browser.
 
-There are a few ways to work with Thinksoft:
+## ThinkSoft Cloud - AI Development Platform
 
-### Thinksoft Software Agent SDK
-The SDK is a composable Python library that contains all of our agentic tech. It's the engine that powers everything else below.
+ThinkSoft Cloud is a comprehensive web-based platform that brings AI agents to your development workflow. Built for teams who want to accelerate their software development with intelligent automation.
 
-Define agents in code, then run them locally, or scale to 1000s of agents in the cloud.
+### ✨ Key Features
 
-[Check out the docs](https://docs.thinksoft.dev/sdk) or [view the source](https://github.com/Thinksoft/software-agent-sdk/)
+🤖 **AI Agent Collaboration** - Work alongside intelligent agents that understand your codebase and can perform complex development tasks
 
-### Thinksoft CLI
-The CLI is the easiest way to start using Thinksoft. The experience will be familiar to anyone who has worked
-with e.g. Claude Code or Codex. You can power it with Claude, GPT, or any other LLM.
+🔗 **Team Integrations** - Seamlessly connect with Slack, Jira, Linear, GitHub, and GitLab
 
-[Check out the docs](https://docs.thinksoft.dev/thinksoft/usage/run-thinksoft/cli-mode) or [view the source](https://github.com/Thinksoft/Thinksoft-CLI)
+👥 **Multi-user Support** - Built for teams with role-based access control and permissions
 
-### Thinksoft Local GUI
-Use the Local GUI for running agents on your laptop. It comes with a REST API and a single-page React application.
-The experience will be familiar to anyone who has used Devin or Jules.
+🔄 **Real-time Collaboration** - Share conversations, code reviews, and development sessions with your team
 
-[Check out the docs](https://docs.thinksoft.dev/thinksoft/usage/run-thinksoft/local-setup) or view the source in this repo.
+🌐 **Web-First Experience** - No installation required - access your AI development environment from any browser
 
-### Thinksoft Cloud
-This is a deployment of Thinksoft GUI, running on hosted infrastructure.
+### 🚀 Get Started
 
-You can try it with a free $10 credit by [signing in with your GitHub or GitLab account](https://app.thinksoft.dev).
+Ready to transform your development workflow? [**Start your free trial**](https://app.thinksoft.dev) with a $10 credit.
 
-Thinksoft Cloud comes with source-available features and integrations:
-- Integrations with Slack, Jira, and Linear
-- Multi-user support
-- RBAC and permissions
-- Collaboration features (e.g., conversation sharing)
+Sign in with your GitHub or GitLab account and begin collaborating with AI agents in minutes.
 
-### Thinksoft Enterprise
-Large enterprises can work with us to self-host Thinksoft Cloud in their own VPC, via Kubernetes.
-Thinksoft Enterprise can also work with the CLI and SDK above.
+### 🏢 Enterprise Solutions
 
-Thinksoft Enterprise is source-available--you can see all the source code here in the enterprise/ directory,
-but you'll need to purchase a license if you want to run it for more than one month.
+For organizations requiring enhanced security and control:
 
-Enterprise contracts also come with extended support and access to our research team.
+- **Self-hosted deployment** in your own VPC via Kubernetes
+- **Advanced security features** and compliance controls  
+- **Dedicated support** and professional services
+- **Custom integrations** and enterprise SSO
 
 Learn more at [thinksoft.dev/enterprise](https://thinksoft.dev/enterprise)
 
-### Everything Else
+## 👋 Community & Support
 
-Check out our [Product Roadmap](https://github.com/orgs/thinksoft/projects/1), and feel free to
-[open up an issue](https://github.com/Thinksoft/Thinksoft/issues) if there's something you'd like to see!
+Join our growing community of developers using AI to accelerate their work:
 
-You might also be interested in our [evaluation infrastructure](https://github.com/Thinksoft/benchmarks), our [chrome extension](https://github.com/Thinksoft/thinksoft-chrome-extension/), or our [Theory-of-Mind module](https://github.com/Thinksoft/ToM-SWE).
+- 💬 [Join our Slack community](https://thinksoft.dev/slack) for support and discussions
+- 🛣️ [Product Roadmap](https://github.com/orgs/thinksoft/projects/1) - see what's coming next
+- 🐛 [Report Issues](https://github.com/Thinksoft/Thinksoft/issues) - help us improve the platform
+- 📚 [Documentation](https://docs.thinksoft.dev) - comprehensive guides and tutorials
 
-All our work is available under the MIT license, except for the `enterprise/` directory in this repository (see the [enterprise license](enterprise/LICENSE) for details).
-The core `thinksoft` and `agent-server` Docker images are fully MIT-licensed as well.
+## 📜 License & Open Source
 
-If you need help with anything, or just want to chat, [come find us on Slack](https://thinksoft.dev/slack).
+ThinkSoft Cloud's core platform is available under the MIT license. The enterprise features in the `enterprise/` directory require a commercial license for production use beyond the trial period.
+
+See the [enterprise license](enterprise/LICENSE) for details on enterprise features and licensing.

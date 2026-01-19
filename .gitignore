@@ -188,18 +188,6 @@ repomix-output.txt
 # Emacs backup
 *~
 
-# evaluation
-evaluation/evaluation_outputs
-evaluation/outputs
-evaluation/swe_bench/eval_workspace*
-evaluation/SWE-bench/data
-evaluation/webarena/scripts/webarena_env.sh
-evaluation/bird/data
-evaluation/gaia/data
-evaluation/gorilla/data
-evaluation/toolqa/data
-evaluation/scienceagentbench/benchmark
-evaluation/commit0_bench/repos
 
 # openhands resolver
 output/

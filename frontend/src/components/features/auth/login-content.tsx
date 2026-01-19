@@ -1,207 +1,62 @@
 import { useTranslation } from "react-i18next";
 import { I18nKey } from "#/i18n/declaration";
-import OpenHandsLogoWhite from "#/assets/branding/openhands-logo-white.svg?react";
-import GitHubLogo from "#/assets/branding/github-logo.svg?react";
-import GitLabLogo from "#/assets/branding/gitlab-logo.svg?react";
-import BitbucketLogo from "#/assets/branding/bitbucket-logo.svg?react";
-import { useAuthUrl } from "#/hooks/use-auth-url";
-import { GetConfigResponse } from "#/api/option-service/option.types";
-import { Provider } from "#/types/settings";
-import { useTracking } from "#/hooks/use-tracking";
-import { TermsAndPrivacyNotice } from "#/components/shared/terms-and-privacy-notice";
-import { useRecaptcha } from "#/hooks/use-recaptcha";
-import { useConfig } from "#/hooks/query/use-config";
-import { displayErrorToast } from "#/utils/custom-toast-handlers";
+import { SignIn, useAuth } from "@clerk/clerk-react";
+import { useEffect } from "react";
+import { useNavigate } from "@remix-run/react";
+import ThinkSoftLogoWhite from "#/assets/branding/thinksoft-logo-white.svg?react";
 
 export interface LoginContentProps {
-  githubAuthUrl: string | null;
-  appMode?: GetConfigResponse["APP_MODE"] | null;
-  authUrl?: GetConfigResponse["AUTH_URL"];
-  providersConfigured?: Provider[];
-  emailVerified?: boolean;
-  hasDuplicatedEmail?: boolean;
-  recaptchaBlocked?: boolean;
+  // Props no longer needed since Clerk handles authentication
 }
 
-export function LoginContent({
-  githubAuthUrl,
-  appMode,
-  authUrl,
-  providersConfigured,
-  emailVerified = false,
-  hasDuplicatedEmail = false,
-  recaptchaBlocked = false,
-}: LoginContentProps) {
+export function LoginContent({}: LoginContentProps) {
   const { t } = useTranslation();
-  const { trackLoginButtonClick } = useTracking();
-  const { data: config } = useConfig();
+  const { isSignedIn } = useAuth();
+  const navigate = useNavigate();
 
-  // reCAPTCHA - only need token generation, verification happens at backend callback
-  const { isReady: recaptchaReady, executeRecaptcha } = useRecaptcha({
-    siteKey: config?.RECAPTCHA_SITE_KEY,
-  });
-
-  const gitlabAuthUrl = useAuthUrl({
-    appMode: appMode || null,
-    identityProvider: "gitlab",
-    authUrl,
-  });
-
-  const bitbucketAuthUrl = useAuthUrl({
-    appMode: appMode || null,
-    identityProvider: "bitbucket",
-    authUrl,
-  });
-
-  const handleAuthRedirect = async (
-    redirectUrl: string,
-    provider: Provider,
-  ) => {
-    trackLoginButtonClick({ provider });
-
-    if (!config?.RECAPTCHA_SITE_KEY || !recaptchaReady) {
-      // No reCAPTCHA or token generation failed - redirect normally
-      window.location.href = redirectUrl;
-      return;
+  // Redirect to home if already signed in
+  useEffect(() => {
+    if (isSignedIn) {
+      navigate("/");
     }
+  }, [isSignedIn, navigate]);
 
-    // If reCAPTCHA is configured, encode token in OAuth state
-    try {
-      const token = await executeRecaptcha("LOGIN");
-      if (token) {
-        const url = new URL(redirectUrl);
-        const currentState =
-          url.searchParams.get("state") || window.location.origin;
-
-        // Encode state with reCAPTCHA token for backend verification
-        const stateData = {
-          redirect_url: currentState,
-          recaptcha_token: token,
-        };
-        url.searchParams.set("state", btoa(JSON.stringify(stateData)));
-        window.location.href = url.toString();
-      }
-    } catch (err) {
-      displayErrorToast(t(I18nKey.AUTH$RECAPTCHA_BLOCKED));
-    }
-  };
-
-  const handleGitHubAuth = () => {
-    if (githubAuthUrl) {
-      handleAuthRedirect(githubAuthUrl, "github");
-    }
-  };
-
-  const handleGitLabAuth = () => {
-    if (gitlabAuthUrl) {
-      handleAuthRedirect(gitlabAuthUrl, "gitlab");
-    }
-  };
-
-  const handleBitbucketAuth = () => {
-    if (bitbucketAuthUrl) {
-      handleAuthRedirect(bitbucketAuthUrl, "bitbucket");
-    }
-  };
-
-  const showGithub =
-    providersConfigured &&
-    providersConfigured.length > 0 &&
-    providersConfigured.includes("github");
-  const showGitlab =
-    providersConfigured &&
-    providersConfigured.length > 0 &&
-    providersConfigured.includes("gitlab");
-  const showBitbucket =
-    providersConfigured &&
-    providersConfigured.length > 0 &&
-    providersConfigured.includes("bitbucket");
-
-  const noProvidersConfigured =
-    !providersConfigured || providersConfigured.length === 0;
-
-  const buttonBaseClasses =
-    "w-[301.5px] h-10 rounded p-2 flex items-center justify-center cursor-pointer transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed";
-  const buttonLabelClasses = "text-sm font-medium leading-5 px-1";
+  if (isSignedIn) {
+    return null; // Don't render anything if already signed in
+  }
   return (
     <div
-      className="flex flex-col items-center w-full gap-12.5"
+      className="flex flex-col items-center w-full gap-12.5 min-h-screen justify-center"
       data-testid="login-content"
     >
-      <div>
-        <OpenHandsLogoWhite width={106} height={72} />
+      <div className="mb-8">
+        <div className="w-[106px] h-[72px] bg-white/10 rounded-lg flex items-center justify-center">
+          {/* ThinkSoft Logo Placeholder */}
+          <span className="text-white text-lg font-bold">ThinkSoft</span>
+        </div>
       </div>
 
-      <h1 className="text-[39px] leading-5 font-medium text-white text-center">
+      <h1 className="text-[39px] leading-5 font-medium text-white text-center mb-8">
         {t(I18nKey.AUTH$LETS_GET_STARTED)}
       </h1>
 
-      {emailVerified && (
-        <p className="text-sm text-muted-foreground text-center">
-          {t(I18nKey.AUTH$EMAIL_VERIFIED_PLEASE_LOGIN)}
-        </p>
-      )}
-      {hasDuplicatedEmail && (
-        <p className="text-sm text-danger text-center">
-          {t(I18nKey.AUTH$DUPLICATE_EMAIL_ERROR)}
-        </p>
-      )}
-      {recaptchaBlocked && (
-        <p className="text-sm text-danger text-center max-w-125">
-          {t(I18nKey.AUTH$RECAPTCHA_BLOCKED)}
-        </p>
-      )}
-
-      <div className="flex flex-col items-center gap-3">
-        {noProvidersConfigured ? (
-          <div className="text-center p-4 text-muted-foreground">
-            {t(I18nKey.AUTH$NO_PROVIDERS_CONFIGURED)}
-          </div>
-        ) : (
-          <>
-            {showGithub && (
-              <button
-                type="button"
-                onClick={handleGitHubAuth}
-                className={`${buttonBaseClasses} bg-[#9E28B0] text-white`}
-              >
-                <GitHubLogo width={14} height={14} className="shrink-0" />
-                <span className={buttonLabelClasses}>
-                  {t(I18nKey.GITHUB$CONNECT_TO_GITHUB)}
-                </span>
-              </button>
-            )}
-
-            {showGitlab && (
-              <button
-                type="button"
-                onClick={handleGitLabAuth}
-                className={`${buttonBaseClasses} bg-[#FC6B0E] text-white`}
-              >
-                <GitLabLogo width={14} height={14} className="shrink-0" />
-                <span className={buttonLabelClasses}>
-                  {t(I18nKey.GITLAB$CONNECT_TO_GITLAB)}
-                </span>
-              </button>
-            )}
-
-            {showBitbucket && (
-              <button
-                type="button"
-                onClick={handleBitbucketAuth}
-                className={`${buttonBaseClasses} bg-[#2684FF] text-white`}
-              >
-                <BitbucketLogo width={14} height={14} className="shrink-0" />
-                <span className={buttonLabelClasses}>
-                  {t(I18nKey.BITBUCKET$CONNECT_TO_BITBUCKET)}
-                </span>
-              </button>
-            )}
-          </>
-        )}
+      <div className="w-full max-w-md">
+        <SignIn 
+          appearance={{
+            elements: {
+              formButtonPrimary: "bg-[#9E28B0] hover:bg-[#7A1F88] text-white",
+              card: "bg-white/10 backdrop-blur-sm border border-white/20",
+              headerTitle: "text-white",
+              headerSubtitle: "text-white/70",
+              socialButtonsBlockButton: "bg-white/10 border-white/20 text-white hover:bg-white/20",
+              formFieldLabel: "text-white",
+              formFieldInput: "bg-white/10 border-white/20 text-white placeholder:text-white/50",
+              footerActionLink: "text-[#9E28B0] hover:text-[#7A1F88]",
+            }
+          }}
+          redirectUrl="/"
+        />
       </div>
-
-      <TermsAndPrivacyNotice className="max-w-[320px] text-[#A3A3A3]" />
     </div>
   );
 }

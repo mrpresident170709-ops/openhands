@@ -54,9 +54,6 @@ dependencies = [
   "numpy",
   "openai==2.8",
   "openhands-aci==0.3.2",
-  "openhands-agent-server==1.8.2",
-  "openhands-sdk==1.8.2",
-  "openhands-tools==1.8.2",
   "opentelemetry-api>=1.33.1",
   "opentelemetry-exporter-otlp-proto-grpc>=1.33.1",
   "pathspec>=0.12.1",
@@ -65,7 +62,6 @@ dependencies = [
   "pillow>=11.3",
   "playwright>=1.55",
   "poetry>=2.1.2",
-  "prompt-toolkit>=3.0.50",
   "protobuf>=5,<6",
   "psutil",
   "pybase62>=1",
@@ -83,17 +79,14 @@ dependencies = [
   "python-socketio==5.13",
   "pythonnet",
   "pyyaml>=6.0.2",
-  "qtconsole>=5.6.1",
   "rapidfuzz>=3.9",
   "redis>=5.2,<7",
   "requests>=2.32.5",
   "setuptools>=78.1.1",
-  "shellingham>=1.5.4",
   "sqlalchemy[asyncio]>=2.0.40",
   "sse-starlette>=3.0.2",
   "starlette>=0.48",
   "tenacity>=8.5,<10",
-  "termcolor",
   "toml",
   "tornado>=6.5",
   "types-toml",
@@ -134,43 +127,9 @@ test = [
   "pytest-xdist",
   "reportlab",
 ]
-runtime = [
-  "flake8",
-  "jupyterlab",
-  "notebook",
-]
-evaluation = [
-  "boto3-stubs[s3]>=1.37.19",
-  "browsergym==0.13.3",
-  "browsergym-miniwob==0.13.3",
-  "browsergym-visualwebarena==0.13.3",
-  "browsergym-webarena==0.13.3",
-  "commit0",
-  "datasets",
-  "evaluate",
-  "func-timeout",
-  "gdown",
-  "joblib",
-  "matplotlib",
-  "multi-swe-bench==0.1.2",
-  "pandas",
-  "pyarrow==21",
-  "retry",
-  "seaborn",
-  "streamlit",
-  "swebench",
-  "swegym",
-  "sympy",
-  "tabulate",
-  "visualswebench",
-  "whatthepatch",
-]
-testgeneval = [
-  "fuzzywuzzy>=0.18",
-  "python-levenshtein>=0.26.1,<0.28",
-  "rouge>=1.0.1",
-  "tree-sitter-python>=0.23.6",
-]
+# Removed runtime dependencies - not needed for web-only platform
+# Removed evaluation dependencies - not needed for web-only platform
+# Removed testgeneval dependencies - not needed for web-only platform
 
 # UV source configuration for git dependencies in evaluation group
 
@@ -237,16 +196,13 @@ python-socketio = "5.13.0"
 sse-starlette = "^3.0.2"
 psutil = "*"
 python-json-logger = "^3.2.1"
-prompt-toolkit = "^3.0.50"
 poetry = "^2.1.2"
 anyio = "4.9.0"
 pythonnet = "*"
 fastmcp = "^2.12.4"           # Note: 2.12.0+ has breaking auth API changes
 python-frontmatter = "^1.1.0"
-shellingham = "^1.5.4"
 # TODO: Should these go into the runtime group?
 ipywidgets = "^8.1.5"
-qtconsole = "^5.6.1"
 python-pptx = "*"
 pylatexenc = "*"
 python-docx = "*"
@@ -321,51 +277,7 @@ pandas = "*"
 reportlab = "*"
 gevent = ">=24.2.1,<26.0.0"
 
-[tool.poetry.group.runtime]
-optional = true
-
-[tool.poetry.group.runtime.dependencies]
-jupyterlab = "*"
-notebook = "*"
-flake8 = "*"
-
-[tool.poetry.group.evaluation]
-optional = true
-
-[tool.poetry.group.evaluation.dependencies]
-streamlit = "*"
-whatthepatch = "*"
-retry = "*"
-evaluate = "*"
-visualswebench = { git = "https://github.com/luolin101/Visual-SWE-bench.git" }
-swegym = { git = "https://github.com/SWE-Gym/SWE-Bench-Package.git" }
-commit0 = "*"
-func_timeout = "*"
-sympy = "*"
-gdown = "*"
-matplotlib = "*"
-seaborn = "*"
-tabulate = "*"
-browsergym = "0.13.3"
-browsergym-webarena = "0.13.3"
-browsergym-miniwob = "0.13.3"
-browsergym-visualwebarena = "0.13.3"
-boto3-stubs = { extras = [ "s3" ], version = "^1.37.19" }
-# transitive dependency, pinned here to avoid conflicts
-pyarrow = "21.0.0"
-datasets = "*"
-joblib = "*"
-swebench = { git = "https://github.com/ryanhoangt/SWE-bench.git", rev = "fix-modal-patch-eval" }
-multi-swe-bench = "0.1.2"
-pandas = "*"
-# tau-bench = { git = "https://github.com/sierra-research/tau-bench.git" }
-# bfcl-eval = "*" # TODO: Verify exact package name/source
-
-[tool.poetry.group.testgeneval.dependencies]
-fuzzywuzzy = "^0.18.0"
-rouge = "^1.0.1"
-python-levenshtein = ">=0.26.1,<0.28.0"
-tree-sitter-python = "^0.23.6"
+# Removed runtime and evaluation Poetry groups - not needed for web-only platform
 
 [tool.poetry-dynamic-versioning]
 enable = true

@@ -18,6 +18,5 @@ __pycache__
 # Unneded files and directories
 /dev_config/
 /docs/
-/evaluation/
 /tests/
 CITATION.cff

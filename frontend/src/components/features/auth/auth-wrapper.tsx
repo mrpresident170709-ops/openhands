@@ -1,12 +1,12 @@
 import { useAuth } from "@clerk/clerk-react";
 import React, { useEffect } from "react";
-import { openHands } from "#/api/open-hands-axios";
+import { thinkSoft } from "#/api/thinksoft-axios";
 
 export const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
     const { getToken } = useAuth();
 
     useEffect(() => {
-        const interceptorId = openHands.interceptors.request.use(async (config) => {
+        const interceptorId = thinkSoft.interceptors.request.use(async (config) => {
             const token = await getToken();
             if (token) {
                 config.headers.Authorization = `Bearer ${token}`;
@@ -15,7 +15,7 @@ export const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
         });
 
         return () => {
-            openHands.interceptors.request.eject(interceptorId);
+            thinkSoft.interceptors.request.eject(interceptorId);
         };
     }, [getToken]);
 

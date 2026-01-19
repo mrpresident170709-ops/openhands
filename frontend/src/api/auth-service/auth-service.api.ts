@@ -1,13 +1,13 @@
-import { openHands } from "../open-hands-axios";
-import { AuthenticateResponse, GitHubAccessTokenResponse } from "./auth.types";
+import { openHands } from "../thinksoft-axios";
+import { AuthenticateResponse } from "./auth.types";
 import { GetConfigResponse } from "../option-service/option.types";
 
 /**
- * Authentication service for handling all authentication-related API calls
+ * Authentication service for handling Clerk authentication
  */
 class AuthService {
   /**
-   * Authenticate with GitHub token
+   * Authenticate with Clerk
    * @param appMode The application mode (saas or oss)
    * @returns Response with authentication status and user info if successful
    */
@@ -16,26 +16,14 @@ class AuthService {
   ): Promise<boolean> {
     if (appMode === "oss") return true;
 
-    // Just make the request, if it succeeds (no exception thrown), return true
-    await openHands.post<AuthenticateResponse>("/api/authenticate");
-    return true;
-  }
-
-  /**
-   * Get GitHub access token from Keycloak callback
-   * @param code Code provided by GitHub
-   * @returns GitHub access token
-   */
-  static async getGitHubAccessToken(
-    code: string,
-  ): Promise<GitHubAccessTokenResponse> {
-    const { data } = await openHands.post<GitHubAccessTokenResponse>(
-      "/api/keycloak/callback",
-      {
-        code,
-      },
-    );
-    return data;
+    try {
+      // The AuthWrapper already sets the Authorization header with Clerk token
+      await openHands.post<AuthenticateResponse>("/api/authenticate");
+      return true;
+    } catch (error) {
+      console.error("Authentication failed:", error);
+      return false;
+    }
   }
 
   /**
