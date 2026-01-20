@@ -1,3 +1,10 @@
 {
-  "framework": null
+  "buildCommand": "pip install --break-system-packages poetry && poetry install --no-dev --no-interaction --no-ansi",
+  "installCommand": "pip install --break-system-packages poetry",
+  "build": {
+    "env": {
+      "UV_SYSTEM_PYTHON": "false",
+      "PYTHON_VERSION": "3.12"
+    }
+  }
 }
