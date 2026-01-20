@@ -92,6 +92,7 @@ dependencies = [
   "types-toml",
   "urllib3>=2.6.3",
   "uvicorn",
+  "werkzeug>=1.0.1",
   "whatthepatch>=1.0.6",
   "zope-interface==7.2",
 ]
