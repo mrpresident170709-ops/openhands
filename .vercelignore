@@ -11,7 +11,6 @@
 !third_party/**
 !pyproject.toml
 !poetry.lock
-!uv.lock
 !README.md
 !config.template.toml
 !main.py
