@@ -55,9 +55,9 @@ RUN ln -s "$(dirname $(which node))/corepack" /usr/local/bin/corepack && \
 {% endif %}
 
 # Install uv (required by MCP)
-RUN curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR="/openhands/bin" sh
-# Add /openhands/bin to PATH
-ENV PATH="/openhands/bin:${PATH}"
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+# Add uv to PATH
+ENV PATH="/root/.cargo/bin:/openhands/bin:${PATH}"
 
 # Remove UID 1000 and GID 1000 users/groups that might conflict with openhands user
 RUN (if getent passwd 1000 | grep -q pn; then userdel pn; fi) && \

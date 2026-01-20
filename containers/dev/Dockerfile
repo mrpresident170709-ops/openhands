@@ -61,6 +61,10 @@ RUN add-apt-repository ppa:deadsnakes/ppa \
     && apt-get install -y python3.12 python3.12-venv python3.12-dev python3-pip \
     && ln -s /usr/bin/python3.12 /usr/bin/python
 
+# Install uv (required by MCP)
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.cargo/bin:$PATH"
+
 # NodeJS >= 22.x
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y nodejs

@@ -9,6 +9,7 @@ sudo apt update && sudo apt install netcat -y
 
 # Install `uv` and `uvx`
 wget -qO- https://astral.sh/uv/install.sh | sh
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # Do common setup tasks
 source .openhands/setup.sh
