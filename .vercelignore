@@ -28,6 +28,7 @@ node_modules
 .next
 .vscode
 .github
+uv.lock
 *.zip
 *.log
 *.tmp
