@@ -5,6 +5,10 @@
 !api/
 !thinksoft/
 !thinksoft/**
+!skills/
+!skills/**
+!third_party/
+!third_party/**
 !pyproject.toml
 !poetry.lock
 !uv.lock
