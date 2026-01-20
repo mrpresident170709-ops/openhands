@@ -1,7 +1,11 @@
 {
-  "build": {
-    "env": {
-      "DISABLE_UV": "1"
+  "builds": [
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb"
+      }
     }
-  }
+  ]
 }
