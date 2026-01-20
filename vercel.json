@@ -1,0 +1,4 @@
+{
+  "buildCommand": "pip install poetry && poetry install --no-dev --no-interaction --no-ansi",
+  "installCommand": "pip install poetry"
+}
